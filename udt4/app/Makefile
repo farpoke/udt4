@@ -26,7 +26,7 @@ ifeq ($(arch), SPARC)
    CCFLAGS += -DSPARC
 endif
 
-LDFLAGS = -L../src -ludt -lstdc++ -lpthread -lm
+LDFLAGS = -L../src -ludt-static -lstdc++ -lpthread -lm
 
 ifeq ($(os), UNIX)
    LDFLAGS += -lsocket

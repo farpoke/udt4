@@ -33,19 +33,19 @@ endif
 OBJS = api.o buffer.o cache.o ccc.o channel.o common.o core.o epoll.o list.o md5.o packet.o queue.o window.o
 DIR = $(shell pwd)
 
-all: libudt.so libudt.a udt
+all: libudt-dynamic.so libudt-static.a udt
 
 %.o: %.cpp %.h udt.h
 	$(C++) $(CCFLAGS) $< -c
 
-libudt.so: $(OBJS)
+libudt-dynamic.so: $(OBJS)
 ifneq ($(os), OSX)
 	$(C++) -shared -o $@ $^
 else
 	$(C++) -dynamiclib -o libudt.dylib -lstdc++ -lpthread -lm $^
 endif
 
-libudt.a: $(OBJS)
+libudt-static.a: $(OBJS)
 	ar -rcs $@ $^
 
 udt:

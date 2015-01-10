@@ -1,0 +1,11 @@
+*.o
+*.so
+*.a
+
+src/udt
+
+app/appserver
+app/appclient
+app/test
+app/recvfile
+app/sendfile
