@@ -8,7 +8,7 @@ ifndef arch
    arch = IA32
 endif
 
-CCFLAGS = -fPIC -Wall -Wextra -D$(os) -finline-functions -O3 -fno-strict-aliasing -fvisibility=hidden
+CCFLAGS = -std=c++11 -fPIC -Wall -Wextra -D$(os) -finline-functions -O3 -fno-strict-aliasing -fvisibility=hidden
 
 ifeq ($(arch), IA32)
    CCFLAGS += -DIA32
@@ -30,10 +30,10 @@ ifeq ($(arch), AMD64)
    CCFLAGS += -DAMD64
 endif
 
-OBJS = api.o buffer.o cache.o ccc.o channel.o common.o core.o epoll.o list.o md5.o packet.o queue.o window.o
+OBJS = api.o buffer.o cache.o ccc.o channel.o common.o core.o epoll.o list.o md5.o packet.o queue.o udt.o window.o
 DIR = $(shell pwd)
 
-all: libudt-dynamic.so libudt-static.a udt
+all: libudt-dynamic.so libudt-static.a
 
 %.o: %.cpp %.h udt.h
 	$(C++) $(CCFLAGS) $< -c
@@ -48,11 +48,8 @@ endif
 libudt-static.a: $(OBJS)
 	ar -rcs $@ $^
 
-udt:
-	cp udt.h udt
-
 clean:
-	rm -f *.o *.so *.dylib *.a udt
+	rm -f *.o *.so *.dylib *.a
 
 install:
 	export LD_LIBRARY_PATH=$(DIR):$$LD_LIBRARY_PATH

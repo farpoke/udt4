@@ -8,7 +8,7 @@ ifndef arch
    arch = IA32
 endif
 
-CCFLAGS = -Wall -D$(os) -I../src -finline-functions -O3
+CCFLAGS = -std=c++11 -Wall -D$(os) -I../src -finline-functions -O3
 
 ifeq ($(arch), IA32)
    CCFLAGS += -DIA32 #-mcpu=pentiumpro -march=pentiumpro -mmmx -msse
@@ -38,22 +38,24 @@ endif
 
 DIR = $(shell pwd)
 
-APP = appserver appclient sendfile recvfile test
+APP = appserver appclient sendfile recvfile test cpptest
 
 all: $(APP)
 
 %.o: %.cpp
 	$(C++) $(CCFLAGS) $< -c
 
-appserver: appserver.o
+appserver: appserver.o ../src/libudt-static.a
 	$(C++) $^ -o $@ $(LDFLAGS)
-appclient: appclient.o
+appclient: appclient.o ../src/libudt-static.a
 	$(C++) $^ -o $@ $(LDFLAGS)
-sendfile: sendfile.o
+sendfile: sendfile.o ../src/libudt-static.a
 	$(C++) $^ -o $@ $(LDFLAGS)
-recvfile: recvfile.o
+recvfile: recvfile.o ../src/libudt-static.a
 	$(C++) $^ -o $@ $(LDFLAGS)
-test: test.o
+test: test.o ../src/libudt-static.a
+	$(C++) $^ -o $@ $(LDFLAGS)
+cpptest: cpptest.o ../src/libudt-static.a
 	$(C++) $^ -o $@ $(LDFLAGS)
 
 clean:

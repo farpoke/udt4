@@ -2,6 +2,8 @@
 *.so
 *.a
 
+*.swp
+
 src/udt
 
 app/appserver
